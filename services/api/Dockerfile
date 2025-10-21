@@ -1,0 +1,18 @@
+
+FROM python:3.12-slim
+
+ENV POETRY_VERSION=1.8.3
+RUN pip install --no-cache-dir poetry==${POETRY_VERSION}
+
+WORKDIR /app
+
+COPY pyproject.toml poetry.lock* ./
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
+
+COPY services/api/app ./app
+COPY analytics/dbt ./analytics/dbt
+COPY policies ./policies
+COPY data ./data
+
+EXPOSE 8080
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]

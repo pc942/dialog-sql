@@ -10,3 +10,16 @@ services:
     ports: ["5432:5432"]
     volumes:
       - ../postgres/init:/docker-entrypoint-initdb.d
+<<<<<<< HEAD
+=======
+
+  api:
+    build:
+      context: ../../services/api
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://dialog:dialog@postgres:5432/dialog
+      PYTHONUNBUFFERED: "1"
+    ports: ["8080:8080"]
+    depends_on: [postgres]
+>>>>>>> ecf301c (api skeleton)

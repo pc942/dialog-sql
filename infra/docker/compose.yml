@@ -11,15 +11,50 @@ services:
     volumes:
       - ../postgres/init:/docker-entrypoint-initdb.d
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
+=======
+  opa:
+    image: openpolicyagent/opa:0.68.0
+    command: ["run", "--server", "--addr=0.0.0.0:8181", "/policies/rowfilter.rego"]
+    volumes:
+      - ../../policies:/policies:ro
+    ports: ["8181:8181"]
+>>>>>>> 6d1d32e (Final push)
   api:
     build:
       context: ../../services/api
       dockerfile: Dockerfile
     environment:
       DATABASE_URL: postgresql://dialog:dialog@postgres:5432/dialog
+<<<<<<< HEAD
       PYTHONUNBUFFERED: "1"
     ports: ["8080:8080"]
     depends_on: [postgres]
 >>>>>>> ecf301c (api skeleton)
+=======
+      OPA_URL: http://opa:8181/v1/data/rowfilter/allow
+      DBT_PROFILES_DIR: /app/analytics/dbt
+      PYTHONUNBUFFERED: "1"
+    ports: ["8080:8080"]
+    depends_on:
+      - postgres
+      - opa
+    volumes:
+      - ../../analytics/dbt:/app/analytics/dbt
+      - ../../data:/app/data
+
+  flight:
+    build:
+      context: ../../services/api
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://dialog:dialog@postgres:5432/dialog
+      FLIGHT_ADDR: 0.0.0.0
+      FLIGHT_PORT: 8815
+    command: ["python", "-m", "app.flight.run_flight"]
+    depends_on:
+      - postgres
+    ports: ["8815:8815"]
+>>>>>>> 6d1d32e (Final push)

@@ -1,0 +1,8 @@
+
+cases:
+  - question: "average order value by product line in Q1 2025"
+    must_contain: ["avg", "product_line", "created_at"]
+  - question: "average order value by product line"
+    must_contain: ["avg", "product_line"]
+  - question: "total order amount by product line in Q1 2025"
+    must_contain: ["sum", "product_line"]

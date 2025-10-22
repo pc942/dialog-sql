@@ -1,0 +1,8 @@
+{
+  "alice": {
+    "region": "NA"
+  },
+  "bob": {
+    "region": "EU"
+  }
+}
